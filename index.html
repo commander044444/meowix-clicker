@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#11111b">
+  <meta name="description" content="Meowix Clicker — tap, collect Meow Coins, and grow your cat.">
+  <title>Meowix Clicker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="ambient ambient-a"></div><div class="ambient ambient-b"></div>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="Meowix home"><span class="brand-mark">✦</span><span>meowix<span class="brand-dot">.</span></span></a>
+      <div class="top-actions">
+        <button class="lang-button" id="langButton" type="button">EN / FA</button>
+        <button class="avatar-button" id="accountButton" type="button" aria-label="Account">♙</button>
+      </div>
+    </header>
+
+    <section id="authPanel" class="auth-panel hidden">
+      <div class="auth-card">
+        <div class="auth-cat">🐱</div>
+        <p class="eyebrow" data-i18n="welcomeTo">WELCOME TO MEOWIX</p>
+        <h1 data-i18n="joinTheClub">Join the cat club</h1>
+        <p class="muted" data-i18n="authDesc">Sign in to save your coins and progress.</p>
+        <form id="authForm">
+          <label for="emailInput" data-i18n="email">Email</label>
+          <input id="emailInput" type="email" autocomplete="email" required placeholder="you@example.com">
+          <label for="passwordInput" data-i18n="password">Password</label>
+          <input id="passwordInput" type="password" autocomplete="current-password" minlength="6" required placeholder="At least 6 characters">
+          <div class="auth-actions">
+            <button class="primary-button" id="signInButton" type="submit" data-i18n="signIn">Sign in</button>
+            <button class="secondary-button" id="signUpButton" type="button" data-i18n="createAccount">Create account</button>
+          </div>
+        </form>
+        <p id="authMessage" class="message" role="status"></p>
+        <p class="tiny-note" data-i18n="authNote">Your password is handled by Supabase Auth, not stored by this app.</p>
+      </div>
+    </section>
+
+    <main id="gameApp">
+      <section class="welcome-row">
+        <div><p class="eyebrow" data-i18n="welcomeBack">WELCOME BACK</p><h1><span data-i18n="hello">Hey, Cat Lover</span> <span>🐾</span></h1><p class="muted small" id="playerLabel">Your cozy cat corner</p></div>
+        <div class="level-pill"><span>✦</span> <span data-i18n="level">LEVEL</span> <b id="levelValue">1</b></div>
+      </section>
+
+      <section class="balance-card">
+        <div class="coin-icon">M</div><div class="balance-copy"><p data-i18n="yourCoins">YOUR MEOW COINS</p><strong id="coinBalance">0</strong><span class="sub-balance"><span data-i18n="profitHour">Profit per hour</span> <b>+<span id="profitHour">0</span></b></span></div><div class="balance-sparkle">✧</div>
+      </section>
+
+      <section class="game-view" id="homeView">
+        <div class="cat-stage">
+          <div class="stage-glow"></div><span class="floating-star star-one">✦</span><span class="floating-star star-two">✧</span>
+          <div class="cat-aura"><button id="catButton" class="cat-button" type="button" aria-label="Tap the cat to earn coins"><span class="cat-emoji">🐱</span></button></div>
+          <p class="tap-hint" data-i18n="tapCat">TAP THE CAT TO EARN COINS</p>
+          <div class="energy-row"><span>⚡</span><div class="energy-track"><div id="energyFill" class="energy-fill"></div></div><span id="energyText">100 / 100</span></div>
+        </div>
+        <div class="stats-grid">
+          <article class="stat-card"><span class="stat-icon">👆</span><div><p data-i18n="perTap">PER TAP</p><strong>+<span id="tapPower">1</span></strong></div></article>
+          <article class="stat-card"><span class="stat-icon">🌙</span><div><p data-i18n="passiveHour">PASSIVE / HOUR</p><strong>+<span id="passivePower">0</span></strong></div></article>
+        </div>
+      </section>
+
+      <section class="game-view hidden" id="mineView">
+        <div class="section-heading"><div><p class="eyebrow" data-i18n="growYourCat">GROW YOUR CAT</p><h2 data-i18n="mineUpgrades">Mine & upgrades</h2></div><span class="section-sparkle">✧</span></div>
+        <div class="upgrade-list">
+          <button class="upgrade-card" id="tapUpgrade" type="button"><span class="upgrade-art">🐾</span><span class="upgrade-info"><strong data-i18n="strongerPaws">Stronger Paws</strong><small data-i18n="moreTap">Earn more coins per tap</small><span class="upgrade-cost">🟡 <b id="tapCost">25</b></span></span><span class="upgrade-action" data-i18n="upgrade">UPGRADE</span></button>
+          <button class="upgrade-card" id="passiveUpgrade" type="button"><span class="upgrade-art passive-art">🌙</span><span class="upgrade-info"><strong data-i18n="catNap">Cat Nap</strong><small data-i18n="earnRest">Earn coins while you rest</small><span class="upgrade-cost">🟡 <b id="passiveCost">100</b></span></span><span class="upgrade-action" data-i18n="upgrade">UPGRADE</span></button>
+        </div>
+        <p class="muted tiny" data-i18n="upgradeNote">Upgrade prices rise as your cat gets stronger.</p>
+      </section>
+
+      <section class="game-view hidden" id="tasksView">
+        <div class="section-heading"><div><p class="eyebrow" data-i18n="littleGoals">LITTLE GOALS</p><h2 data-i18n="dailyTasks">Daily tasks</h2></div><span class="section-sparkle">✧</span></div>
+        <article class="mission-card"><span class="mission-icon">🌞</span><div class="mission-copy"><strong data-i18n="dailyWelcome">Daily hello</strong><small data-i18n="dailyDesc">Claim your daily welcome reward.</small><span class="mission-reward">🟡 +100</span></div><button id="dailyClaim" class="claim-button" type="button" data-i18n="claim">CLAIM</button></article>
+        <article class="mission-card"><span class="mission-icon">🐾</span><div class="mission-copy"><strong data-i18n="tapExplorer">Tap explorer</strong><small data-i18n="tapExplorerDesc">Keep tapping to grow your cat's stash.</small><span class="mission-reward" data-i18n="inProgress">Progress is saved as you play</span></div><span class="mission-status">✓</span></article>
+        <p class="muted tiny" data-i18n="tasksNote">More missions can be added from the database as the game grows.</p>
+      </section>
+
+      <section class="game-view hidden" id="friendsView">
+        <div class="section-heading"><div><p class="eyebrow" data-i18n="betterTogether">BETTER TOGETHER</p><h2 data-i18n="inviteFriends">Invite friends</h2></div><span class="section-sparkle">✧</span></div>
+        <div class="feature-card"><div class="feature-icon">🎁</div><h3 data-i18n="inviteTitle">Bring a friend, grow together</h3><p class="muted" data-i18n="inviteDesc">Your personal invite link will appear here when referral rewards are enabled.</p><button class="secondary-button" id="copyInvite" type="button" data-i18n="copyInvite">Copy invite link</button><p id="inviteMessage" class="message"></p></div>
+      </section>
+
+      <section class="game-view hidden" id="rankingView">
+        <div class="section-heading"><div><p class="eyebrow" data-i18n="topCats">TOP CATS</p><h2 data-i18n="leaderboard">Leaderboard</h2></div><span class="section-sparkle">✧</span></div>
+        <div class="leaderboard" id="leaderboard"><div class="empty-state" data-i18n="rankingNote">Sign in and play to join the leaderboard.</div></div>
+      </section>
+
+      <section class="game-view hidden" id="profileView">
+        <div class="section-heading"><div><p class="eyebrow" data-i18n="yourCorner">YOUR CORNER</p><h2 data-i18n="profile">Profile</h2></div><span class="section-sparkle">✧</span></div>
+        <div class="profile-card"><div class="profile-avatar">🐱</div><div class="profile-details"><strong id="profileEmail">Cat player</strong><span class="muted" data-i18n="memberOf">Meowix cat club</span></div></div>
+        <button id="signOutButton" class="secondary-button signout-button" type="button" data-i18n="signOut">Sign out</button>
+        <p class="muted tiny" data-i18n="profileNote">Meow Coins are virtual game points and have no cash value.</p>
+      </section>
+      <p id="toast" class="toast" role="status" aria-live="polite"></p>
+    </main>
+
+    <nav class="bottom-nav" aria-label="Main navigation">
+      <button class="nav-item active" data-view="home" type="button"><span>🐈</span><small data-i18n="home">Home</small></button>
+      <button class="nav-item" data-view="mine" type="button"><span>⛏️</span><small data-i18n="mine">Mine</small></button>
+      <button class="nav-item" data-view="tasks" type="button"><span>🎯</span><small data-i18n="tasks">Tasks</small></button>
+      <button class="nav-item" data-view="friends" type="button"><span>👥</span><small data-i18n="friends">Friends</small></button>
+      <button class="nav-item" data-view="ranking" type="button"><span>🏆</span><small data-i18n="ranking">Ranking</small></button>
+    </nav>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
